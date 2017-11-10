@@ -1,0 +1,16 @@
+1. Build all images by docker-compose build
+2. Start server1, server2 and client on different terminal screens
+3. shutownd server1
+4. start server1 again
+5. shutdown server2
+6. start server2 again
+7. get fun
+
+In any time you may check web-server from client by "docker exec curl -s 10.0.0.254"
+To check server status (master o slave) you may use "docker exec server<N> ip addr"
+
+Keep in mind that BSD version of carp may work in master-master mode, linux version works only in master-slave mode.
+
+Usefull links:
+  https://en.wikipedia.org/wiki/Common_Address_Redundancy_Protocol
+  https://man.openbsd.org/carp.4

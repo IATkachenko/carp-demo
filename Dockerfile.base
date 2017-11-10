@@ -1,0 +1,21 @@
+FROM centos:7
+RUN yum install -y epel-release
+# Install CARP
+RUN yum install -y ucarp iproute
+# Install tools
+RUN yum install -y net-tools tcpdump telnet curl 
+# Install service
+RUN yum install -y nginx 
+#install supervisor
+RUN yum install -y supervisor
+
+# CARP and supervisor settings
+RUN rm -f /etc/ucarp/*
+COPY carp/vip-001.conf /etc/ucarp/
+COPY carp/start_ucarp.sh /
+COPY suprevisor/ucarp.ini /etc/supervisord.d/
+
+# HA service and supervisor settings
+COPY suprevisor/nginx.ini /etc/supervisord.d/
+
+CMD /usr/bin/supervisord -n

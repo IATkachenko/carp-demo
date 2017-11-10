@@ -1,0 +1,10 @@
+FROM centos:7
+RUN yum install -y epel-release
+# Install tools
+RUN yum install -y net-tools tcpdump telnet curl ping 
+#install supervisor
+RUN yum install -y supervisor
+
+COPY suprevisor/ping.ini /etc/supervisord.d/
+
+CMD /usr/bin/supervisord -n

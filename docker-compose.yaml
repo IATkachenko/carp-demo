@@ -1,0 +1,45 @@
+version: "3.4"
+services:
+        base:
+                build:
+                        context: .
+                        dockerfile: Dockerfile.base
+                container_name: base_image
+                image: carp_demo_server
+                command: /bin/true
+
+        server1:
+                hostname: server1
+                container_name: server1
+                image: carp_demo_server
+                privileged: true
+                networks: 
+                        - ha
+                volumes:
+                        - ./web:/usr/share/nginx/html:ro
+                          #                command: sleep 1d
+        server2:
+                hostname: server2
+                container_name: server2
+                image: carp_demo_server
+                privileged: true
+                networks: 
+                        - ha
+                volumes:
+                        - ./web:/usr/share/nginx/html:ro
+        client:
+                build:
+                        context: .
+                        dockerfile: Dockerfile.client
+                image: carp_demo_client
+                hostname: client
+                container_name: client
+                networks: 
+                        - ha
+
+networks:
+        ha:
+                ipam:
+                        driver: default
+                        config:
+                                - subnet: 10.0.0.0/24
